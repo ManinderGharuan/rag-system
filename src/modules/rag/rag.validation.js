@@ -10,6 +10,7 @@ export const ingestSchema = Joi.object({
 export const askSchema = Joi.object({
   question: Joi.string().trim().min(1).required(),
   source: Joi.string().trim().min(1).max(255).optional(),
+  sessionId: Joi.string().uuid().optional(),
   topK: Joi.number().integer().min(1).max(20).default(4),
   similarityThreshold: Joi.number().min(0).max(1).default(0.5),
 });

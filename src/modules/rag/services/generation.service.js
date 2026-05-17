@@ -5,11 +5,12 @@ export default class GenerationService {
     this.providerName = providerName;
   }
 
-  async generateAnswer(question, chunks) {
+  async generateAnswer(question, chunks, history = '') {
     const prompt = this.promptBuilderFactory()
       .withDefaultInstructions()
       .withContext(chunks)
       .withQuestion(question)
+      .withHistory(history)
       .build();
 
     const answer = await this.aiProviderStrategy.generate(prompt);

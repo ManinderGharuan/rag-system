@@ -12,6 +12,8 @@ import RagService from './services/rag.service.js';
 import RagController from './rag.controller.js';
 import createRagRoutes from './rag.routes.js';
 import { createAiProviderStrategy } from './strategies/ai-provider.factory.js';
+import ConversationRepository from './repositories/conversation.repository.js';
+import ConversationService from './services/conversation.service.js';
 
 export function createRagModule() {
   const aiProviderStrategy = createAiProviderStrategy({ env, embeddingConfig });
@@ -32,13 +34,19 @@ export function createRagModule() {
     embeddingService,
     documentRepository,
   });
+  const conversationRepository = new ConversationRepository(db);
+  const conversationService = new ConversationService({ conversationRepository });
+
   const ragService = new RagService({
     retrieverService,
     generationService,
+    conversationService,
   });
+
   const ragController = new RagController({
     ingestService,
     ragService,
+    conversationService,
   });
 
   return {
@@ -46,6 +54,7 @@ export function createRagModule() {
     services: {
       ingestService,
       ragService,
+      conversationService,
       retrieverService,
       embeddingService,
       generationService,
@@ -53,6 +62,7 @@ export function createRagModule() {
     },
     repositories: {
       documentRepository,
+      conversationRepository,
     },
   };
 }

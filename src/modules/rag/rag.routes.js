@@ -45,5 +45,84 @@ export default function createRagRoutes({ ragController }) {
    */
   router.post('/ask', validateBody(askSchema), ragController.ask);
 
+  /**
+   * @swagger
+   * /api/rag/conversation/{sessionId}:
+   *   get:
+   *     summary: Get conversation history for a session
+   *     tags: [RAG]
+   *     parameters:
+   *       - in: path
+   *         name: sessionId
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Session identifier
+   *     responses:
+   *       200:
+   *         description: Conversation history
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                 data:
+   *                   $ref: '#/components/schemas/ConversationHistory'
+   */
+  router.get('/conversation/:sessionId', ragController.getConversation);
+
+  /**
+   * @swagger
+   * /api/rag/conversation/{sessionId}:
+   *   delete:
+   *     summary: Delete/clear conversation history for a session
+   *     tags: [RAG]
+   *     parameters:
+   *       - in: path
+   *         name: sessionId
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Session identifier
+   *     responses:
+   *       200:
+   *         description: Deletion result
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                 message:
+   *                   type: string
+   */
+  router.delete('/conversation/:sessionId', ragController.deleteConversation);
+
+  /**
+   * @swagger
+   * /api/rag/sessions:
+   *   get:
+   *     summary: List active conversation sessions
+   *     tags: [RAG]
+   *     responses:
+   *       200:
+   *         description: List of sessions
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/SessionSummary'
+   */
+  router.get('/sessions', ragController.listSessions);
+
   return router;
 }
