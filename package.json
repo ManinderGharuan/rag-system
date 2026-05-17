@@ -1,0 +1,32 @@
+{
+  "name": "rag-system",
+  "version": "1.0.0",
+  "description": "A minimal Node.js RAG API using Express, Knex, PostgreSQL, and pgvector.",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:migrate": "knex --knexfile db/knexfile.js migrate:latest",
+    "db:rollback": "knex --knexfile db/knexfile.js migrate:rollback",
+    "db:make": "knex --knexfile db/knexfile.js migrate:make",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^2.3.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "joi": "^18.2.1",
+    "knex": "^3.2.10",
+    "openai": "^6.38.0",
+    "pg": "^8.20.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
+  }
+}
