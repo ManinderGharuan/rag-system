@@ -36,7 +36,7 @@ export default class TraversalService {
     const nodeWithOptions = await this.nodeRepo.findWithOptions(rootNode.id);
 
     // Create session at root
-    await this.sessionRepo.createSession({ sessionId, treeId, rootNodeId: rootNode.id });
+    await this.sessionRepo.create({ sessionId, treeId, rootNodeId: rootNode.id });
 
     // Log first step
     await this.sessionRepo.logStep({ sessionId, nodeId: rootNode.id });
@@ -50,7 +50,7 @@ export default class TraversalService {
   // User picks an option — returns next node
   async traverse({ sessionId, optionId }) {
     // 1. Validate session exists and is active
-    const session = await this.sessionRepo.findSession(sessionId);
+    const session = await this.sessionRepo.findById(sessionId);
     if (!session) throw new HttpError(404, 'Session not found or already completed');
 
     // 2. Validate option exists
@@ -72,7 +72,7 @@ export default class TraversalService {
 
     // 6. Update session — mark completed if leaf reached
     const isLeaf = nextNode.type === 'leaf';
-    await this.sessionRepo.updateSession(sessionId, {
+    await this.sessionRepo.update(sessionId, {
       currentNodeId: nextNode.id,
       status: isLeaf ? 'completed' : 'active',
       completedAt: isLeaf ? new Date() : null,
@@ -86,7 +86,7 @@ export default class TraversalService {
 
   // Get full path user took through the tree
   async getSessionPath(sessionId) {
-    const session = await this.sessionRepo.findSession(sessionId);
+    const session = await this.sessionRepo.findById(sessionId);
     const steps   = await this.sessionRepo.getSteps(sessionId);
     return { session, steps };
   }

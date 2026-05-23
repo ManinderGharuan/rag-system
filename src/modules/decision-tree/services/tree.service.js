@@ -2,7 +2,7 @@
 import { HttpError } from '../../../utils/httpError.js';
 
 export default class TreeService {
-  constructor(treeRepo, nodeRepo, optionRepo) {
+  constructor({ treeRepo, nodeRepo, optionRepo }) {
     this.treeRepo = treeRepo;
     this.nodeRepo = nodeRepo;
     this.optionRepo = optionRepo;
