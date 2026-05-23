@@ -7,7 +7,7 @@ import { createDecisionTreeModule } from '../modules/decision-tree/decision-tree
 
 const router = Router();
 const ragModule = createRagModule();
-const decisionTreeModule = createDecisionTreeModule();
+const decisionTreeModule = createDecisionTreeModule({ ragService: ragModule.ragService });
 
 router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 router.use(healthRoutes);

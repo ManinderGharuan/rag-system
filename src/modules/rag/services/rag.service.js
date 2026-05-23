@@ -1,3 +1,5 @@
+
+import { v4 as uuidv4 } from 'uuid';
 import { HttpError } from '../../../utils/httpError.js';
 
 export default class RagService {
@@ -5,6 +7,10 @@ export default class RagService {
     this.retrieverService = retrieverService;
     this.generationService = generationService;
     this.conversationService = conversationService;
+  }
+
+  async createSession() {
+    return { sessionId: uuidv4() };
   }
 
   async ask(question, options = {}) {

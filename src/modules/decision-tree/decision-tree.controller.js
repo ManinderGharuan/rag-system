@@ -1,8 +1,9 @@
 
 export default class DecisionTreeController {
-  constructor({ treeService, traversalService }) {
+  constructor({ treeService, traversalService, ragService }) {
     this.treeService = treeService;
     this.traversalService = traversalService;
+    this.ragService = ragService;
 
     // Admin
     this.createTree = this.createTree.bind(this);
@@ -147,6 +148,20 @@ export default class DecisionTreeController {
     try {
       const path = await this.traversalService.getSessionPath(req.params.sessionId);
       res.json({ success: true, data: path });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async ragAsk(req, res, next) {
+    try {
+      const { question, source, topK, similarityThreshold } = req.body;
+
+      const sessionId = req.body.sessionId || uuidv4();
+
+      const result = await this.ragService.ask(question, { source, topK, similarityThreshold, sessionId });
+
+      res.json({ success: true, data: result });
     } catch (err) {
       next(err);
     }

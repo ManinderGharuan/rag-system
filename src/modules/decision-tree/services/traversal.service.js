@@ -3,10 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { HttpError } from '../../../utils/httpError.js';
 
 export default class TraversalService {
-  constructor({ nodeRepo, optionRepo, sessionRepo }) {
+  constructor({ nodeRepo, optionRepo, sessionRepo, ragService }) {
     this.nodeRepo = nodeRepo;
     this.optionRepo = optionRepo;
     this.sessionRepo = sessionRepo;
+    this.ragService  = ragService;
 
     this.startSession = this.startSession.bind(this);
     this.traverse = this.traverse.bind(this);
@@ -20,6 +21,8 @@ export default class TraversalService {
       type:      node.type,
       content:   node.content,
       isLeaf:    node.type === 'leaf',
+      isRag:     node.type === 'rag',
+      ragSource: node.rag_source ?? null,
       options:   node.options?.map(o => ({
         optionId: o.id,
         label:    o.label,
@@ -72,15 +75,30 @@ export default class TraversalService {
 
     // 6. Update session — mark completed if leaf reached
     const isLeaf = nextNode.type === 'leaf';
+    const isRag  = nextNode.type === 'rag';
+
     await this.sessionRepo.update(sessionId, {
       currentNodeId: nextNode.id,
       status: isLeaf ? 'completed' : 'active',
       completedAt: isLeaf ? new Date() : null,
     });
 
+    const formatted = this.formatNode(nextNode);
+
+    // 7. If rag node — auto-create a RAG session so frontend can start asking immediately
+    if (isRag) {
+      const ragSession = await this.ragService.createSession();
+      return {
+        ...formatted,
+        sessionId,
+        ragSessionId: ragSession.sessionId,
+        message: nextNode.content || 'RAG node reached. Start your RAG session.',
+      };
+    }
+
     return {
       sessionId,
-      ...this.formatNode(nextNode),
+      ...formatted,
     };
   }
 

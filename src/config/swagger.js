@@ -56,7 +56,7 @@ const swaggerSpec = swaggerJsdoc({
           type: 'object',
           required: ['type', 'content'],
           properties: {
-            type: { type: 'string', enum: ['question', 'leaf'] },
+            type: { type: 'string', enum: ['question', 'leaf', 'rag'] },
             content: { type: 'string', example: 'What type of issue are you having?' },
             isRoot: { type: 'boolean', example: true },
           },
@@ -64,7 +64,7 @@ const swaggerSpec = swaggerJsdoc({
         NodeUpdateRequest: {
           type: 'object',
           properties: {
-            type: { type: 'string', enum: ['question', 'leaf'] },
+            type: { type: 'string', enum: ['question', 'leaf', 'rag'] },
             content: { type: 'string', example: 'Please clarify the issue.' },
             isRoot: { type: 'boolean', example: false },
           },

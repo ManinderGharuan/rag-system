@@ -15,7 +15,7 @@ import TraversalService from './services/traversal.service.js';
 import DecisionTreeController from './decision-tree.controller.js';
 import createDecisionTreeRouter from './decision-tree.routes.js';
 
-export function createDecisionTreeModule() {
+export function createDecisionTreeModule({ ragService }) {
   // Repositories
   const treeRepo = new TreeRepository(db);
   const nodeRepo = new NodeRepository(db);
@@ -24,10 +24,10 @@ export function createDecisionTreeModule() {
 
   // Services
   const treeService = new TreeService({ treeRepo, nodeRepo, optionRepo });
-  const traversalService = new TraversalService({ nodeRepo, optionRepo, sessionRepo });
+  const traversalService = new TraversalService({ nodeRepo, optionRepo, sessionRepo, ragService });
 
   // Controller
-  const controller = new DecisionTreeController({ treeService, traversalService });
+  const controller = new DecisionTreeController({ treeService, traversalService, ragService });
 
   return {
     routes: createDecisionTreeRouter(controller),

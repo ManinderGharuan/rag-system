@@ -10,6 +10,7 @@ import {
   updateOptionSchema,
   startSessionSchema,
   traverseSchema,
+  ragAskSchema
 } from './decision-tree.validation.js';
 
 const createDecisionTreeRouter = (controller) => {
@@ -119,7 +120,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/trees/{treeId}/nodes:
    *   post:
    *     summary: Add a node to a decision tree
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Nodes]
    *     parameters:
    *       - in: path
    *         name: treeId
@@ -143,7 +144,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/nodes/{nodeId}:
    *   put:
    *     summary: Update a decision tree node
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Nodes]
    *     parameters:
    *       - in: path
    *         name: nodeId
@@ -167,7 +168,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/nodes/{nodeId}:
    *   delete:
    *     summary: Delete a decision tree node
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Nodes]
    *     parameters:
    *       - in: path
    *         name: nodeId
@@ -186,7 +187,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/nodes/{nodeId}/options:
    *   post:
    *     summary: Add an option to a node
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Options]
    *     parameters:
    *       - in: path
    *         name: nodeId
@@ -210,7 +211,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/options/{optionId}:
    *   put:
    *     summary: Update an option on a node
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Options]
    *     parameters:
    *       - in: path
    *         name: optionId
@@ -234,7 +235,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/options/{optionId}:
    *   delete:
    *     summary: Delete an option from a node
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Options]
    *     parameters:
    *       - in: path
    *         name: optionId
@@ -253,7 +254,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/trees/{treeId}/start:
    *   post:
    *     summary: Start a decision tree session
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Traversal]
    *     parameters:
    *       - in: path
    *         name: treeId
@@ -277,7 +278,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/traverse:
    *   post:
    *     summary: Move to the next node in a decision tree session
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Traversal]
    *     requestBody:
    *       required: true
    *       content:
@@ -297,7 +298,7 @@ const createDecisionTreeRouter = (controller) => {
    * /api/decision-tree/sessions/{sessionId}/path:
    *   get:
    *     summary: Retrieve the traversal path for a session
-   *     tags: [DecisionTree]
+   *     tags: [DecisionTree-Traversal]
    *     parameters:
    *       - in: path
    *         name: sessionId
@@ -309,6 +310,25 @@ const createDecisionTreeRouter = (controller) => {
    *         description: Session path details
    */
   router.get('/sessions/:sessionId/path', controller.getSessionPath);
+
+  // -- User: RAG node Q&A
+  /**
+   * @swagger
+   * /api/decision-tree/rag-ask:
+   *   post:
+   *     summary: Ask a question to a RAG node
+   *     tags: [DecisionTree-RAG]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/AskRequest'
+   *     responses:
+   *       200:
+   *         description: Question answered
+   */
+  router.post('/rag-ask', validateBody(ragAskSchema), controller.ragAsk);
 
   return router;
 };
