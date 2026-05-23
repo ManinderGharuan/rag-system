@@ -1,6 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { HttpError } from '../../utils/httpError.js';
+import { HttpError } from '../../../utils/httpError.js';
 
 export default class TraversalService {
   constructor({ nodeRepo, optionRepo, sessionRepo }) {

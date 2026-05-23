@@ -1,5 +1,5 @@
 
-import { HttpError } from '../../utils/httpError.js';
+import { HttpError } from '../../../utils/httpError.js';
 
 export default class TreeService {
   constructor(treeRepo, nodeRepo, optionRepo) {

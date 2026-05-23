@@ -1,3 +1,5 @@
+import { HttpError } from '../../../utils/httpError.js';
+
 export default class EmbeddingService {
   constructor(aiProviderStrategy, embeddingConfig) {
     this.aiProviderStrategy = aiProviderStrategy;
@@ -6,6 +8,7 @@ export default class EmbeddingService {
   }
 
   embedText(text) {
+    if (!text || !text.trim()) throw new HttpError(400, 'Text to embed is required');
     return this.aiProviderStrategy.embed(text);
   }
 

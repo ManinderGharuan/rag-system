@@ -1,3 +1,5 @@
+import { HttpError } from '../../../utils/httpError.js';
+
 export default class GenerationService {
   constructor({ aiProviderStrategy, promptBuilderFactory, providerName }) {
     this.aiProviderStrategy = aiProviderStrategy;
@@ -6,6 +8,8 @@ export default class GenerationService {
   }
 
   async generateAnswer(question, chunks, history = '') {
+    if (!question || !question.trim()) throw new HttpError(400, 'Question is required');
+    if (!Array.isArray(chunks) || chunks.length === 0) throw new HttpError(400, 'At least one chunk is required');
     const prompt = this.promptBuilderFactory()
       .withDefaultInstructions()
       .withContext(chunks)

@@ -1,10 +1,12 @@
+import { HttpError } from '../../../utils/httpError.js';
+
 function chunkText(text, options = {}) {
   const chunkSize = options.chunkSize || 500;
   const overlap = options.overlap || 100;
 
-  if (chunkSize <= 0) throw new Error('chunkSize must be greater than 0');
-  if (overlap < 0) throw new Error('overlap cannot be negative');
-  if (overlap >= chunkSize) throw new Error('overlap must be smaller than chunkSize');
+  if (chunkSize <= 0) throw new HttpError(400, 'chunkSize must be greater than 0');
+  if (overlap < 0) throw new HttpError(400, 'overlap cannot be negative');
+  if (overlap >= chunkSize) throw new HttpError(400, 'overlap must be smaller than chunkSize');
 
   const chunks = [];
   const cleaned = text.replace(/\s+/g, ' ').trim();

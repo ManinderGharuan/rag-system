@@ -1,3 +1,5 @@
+import { HttpError } from '../../../utils/httpError.js';
+
 export default class RagService {
   constructor({ retrieverService, generationService, conversationService }) {
     this.retrieverService = retrieverService;
@@ -6,7 +8,9 @@ export default class RagService {
   }
 
   async ask(question, options = {}) {
+    if (!question || !question.trim()) throw new HttpError(400, 'Question is required');
     const similarityThreshold = Number(options.similarityThreshold ?? 0.5);
+    if (similarityThreshold < 0 || similarityThreshold > 1) throw new HttpError(400, 'similarityThreshold must be between 0 and 1');
 
     const history = options.sessionId
       ? await this.conversationService.getFormattedHistory(options.sessionId)
