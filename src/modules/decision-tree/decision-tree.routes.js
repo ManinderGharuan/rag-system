@@ -28,7 +28,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/TreeCreateRequest'
+   *             $ref: '#/components/schemas/decision-tree.createTree'
    *     responses:
    *       201:
    *         description: Tree created successfully
@@ -87,7 +87,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/TreeUpdateRequest'
+   *             $ref: '#/components/schemas/decision-tree.updateTree'
    *     responses:
    *       200:
    *         description: Tree updated successfully
@@ -132,7 +132,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/NodeCreateRequest'
+   *             $ref: '#/components/schemas/decision-tree.createNode'
    *     responses:
    *       201:
    *         description: Node created successfully
@@ -156,7 +156,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/NodeUpdateRequest'
+   *             $ref: '#/components/schemas/decision-tree.updateNode'
    *     responses:
    *       200:
    *         description: Node updated successfully
@@ -199,7 +199,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/OptionCreateRequest'
+   *             $ref: '#/components/schemas/decision-tree.createOption'
    *     responses:
    *       201:
    *         description: Option created successfully
@@ -223,7 +223,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/OptionUpdateRequest'
+   *             $ref: '#/components/schemas/decision-tree.updateOption'
    *     responses:
    *       200:
    *         description: Option updated successfully
@@ -266,7 +266,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/TreeStartRequest'
+   *             $ref: '#/components/schemas/decision-tree.startSession'
    *     responses:
    *       200:
    *         description: Session started
@@ -284,7 +284,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/TraverseRequest'
+   *             $ref: '#/components/schemas/decision-tree.traverse'
    *     responses:
    *       200:
    *         description: Next node returned
@@ -323,7 +323,7 @@ const createDecisionTreeRouter = (controller) => {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/AskRequest'
+   *             $ref: '#/components/schemas/decision-tree.ragAsk'
    *     responses:
    *       200:
    *         description: Question answered

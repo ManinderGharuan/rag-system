@@ -16,7 +16,7 @@ export default function createRagRoutes({ ragController }) {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/IngestRequest'
+   *             $ref: '#/components/schemas/rag.ingest'
    *     responses:
    *       201:
    *         description: Document ingested
@@ -36,7 +36,7 @@ export default function createRagRoutes({ ragController }) {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/AskRequest'
+   *             $ref: '#/components/schemas/rag.ask'
    *     responses:
    *       200:
    *         description: Generated answer with matching sources
@@ -61,15 +61,6 @@ export default function createRagRoutes({ ragController }) {
    *     responses:
    *       200:
    *         description: Conversation history
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 success:
-   *                   type: boolean
-   *                 data:
-   *                   $ref: '#/components/schemas/ConversationHistory'
    */
   router.get('/conversation/:sessionId', ragController.getConversation);
 
@@ -89,15 +80,6 @@ export default function createRagRoutes({ ragController }) {
    *     responses:
    *       200:
    *         description: Deletion result
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 success:
-   *                   type: boolean
-   *                 message:
-   *                   type: string
    */
   router.delete('/conversation/:sessionId', ragController.deleteConversation);
 
@@ -110,17 +92,6 @@ export default function createRagRoutes({ ragController }) {
    *     responses:
    *       200:
    *         description: List of sessions
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 success:
-   *                   type: boolean
-   *                 data:
-   *                   type: array
-   *                   items:
-   *                     $ref: '#/components/schemas/SessionSummary'
    */
   router.get('/sessions', ragController.listSessions);
 
